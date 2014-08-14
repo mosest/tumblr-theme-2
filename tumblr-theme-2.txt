@@ -3,6 +3,7 @@
 <title>{Title}</title>
 <style>
     :root {
+        /*colors*/
         --lightblue: #9ad3d7;
         --darkblue: #70bdc0;
         --green: #54ae59;
@@ -17,8 +18,23 @@
         background-attachment: fixed;
         height: 100%;
     }
+    blockquote {
+        padding: 0px 0px 0px 20px;
+        margin: 0px;
+        border-left: 2px dotted var(--lightblue);
+    }
     
     /*classes*/
+    .tagHeader {
+        padding: 20px;
+        margin: 25px 0px 5px 0px;
+        background: var(--darkblue);
+        border-radius: 5px;
+        color: var(--yellow);
+        font-family: "Arial Narrow", courier;
+        font-size: 30px;
+        text-align: center;
+    }
     .post {
         padding: 20px;
         margin: 25px 0px 5px 0px;
@@ -29,13 +45,17 @@
     .post a {
         text-decoration: none;
         color: var(--green);
-        font-weight: bold;
     }
     .post img {
         padding: 0px;
         margin: 0px auto;
         display: block;
         text-align: center;
+    }
+    .postTitle a {
+        color: var(--darkblue);
+        font-family: "Arial Narrow", courier;
+        text-decoration: none;
     }
     .postNotes {
         padding: 20px 0px;
@@ -45,7 +65,6 @@
     .postNotes a {
         text-decoration: none;
         color: var(--green);
-        font-weight: bold;
     }
     .postNotes li {
         padding: 10px 0px;
@@ -88,6 +107,16 @@
     }
     .links li a:hover {
         color: var(--yellow);
+    }
+    .circleLinks {
+        padding: 0px;
+        margin: 0px;
+        font-family: "Century Gothic";
+        font-size: 12px;
+        list-style: none;
+    }
+    .circleLinks li {
+        display: inline-block;
     }
     .tags {
         padding: 0px;
@@ -187,7 +216,7 @@
         border-radius: 0px 0px 10px 0px;
         color: var(--yellow);
         font-size: 20px;
-        height: 300px;
+        height: 320px;
         left: 20px;
         position: fixed;
         top: -100%;
@@ -208,7 +237,7 @@
     }
     #sidebarTab:hover {
         color: var(--yellow);
-        top: 340px;
+        top: 360px;
     }
     #sidebarTab:hover #sidebar {
         top: 0px;
@@ -221,6 +250,91 @@
     }
     #quoteSource {
         font-variant: small-caps;
+    }
+    #photosetPhoto {
+        margin-bottom: 20px;
+    }
+    
+    /*CIRCLE IDS YAAAY*/
+    #whiteCircle {
+        padding: 3px;
+        margin: 0px;
+        background: white;
+        border-radius: 100%;
+        height: 10px;
+        width: 10px;
+    }
+    #pinkCircle {
+        padding: 3px;
+        margin: 0px;
+        background: pink;
+        border-radius: 100%;
+        height: 10px;
+        width: 10px;
+    }
+    #redCircle {
+        padding: 3px;
+        margin: 0px;
+        background: red;
+        border-radius: 100%;
+        height: 10px;
+        width: 10px;
+    }
+    #orangeCircle {
+        padding: 3px;
+        margin: 0px;
+        background: orange;
+        border-radius: 100%;
+        height: 10px;
+        width: 10px;
+    }
+    #yellowCircle {
+        padding: 3px;
+        margin: 0px;
+        background: var(--yellow);
+        border-radius: 100%;
+        height: 10px;
+        width: 10px;
+    }
+    #greenCircle {
+        padding: 3px;
+        margin: 0px;
+        background: green;
+        border-radius: 100%;
+        height: 10px;
+        width: 10px;
+    }
+    #blueCircle {
+        padding: 3px;
+        margin: 0px;
+        background: var(--lightblue);
+        border-radius: 100%;
+        height: 10px;
+        width: 10px;
+    }
+    #purpleCircle {
+        padding: 3px;
+        margin: 0px;
+        background: purple;
+        border-radius: 100%;
+        height: 10px;
+        width: 10px;
+    }
+    #brownCircle {
+        padding: 3px;
+        margin: 0px;
+        background: brown;
+        border-radius: 100%;
+        height: 10px;
+        width: 10px;
+    }
+    #greyCircle {
+        padding: 3px;
+        margin: 0px;
+        background: gray;
+        border-radius: 100%;
+        height: 10px;
+        width: 10px;
     }
     
     /*If window gets too small width-wise*/
@@ -252,6 +366,13 @@
             {/block:Description}
         </div>
         
+        <!--for pages with specifically tagged posts-->
+        {block:TagPage}
+        <div class="tagHeader">
+            {Tag}
+        </div>
+        {/block:TagPage}
+        
         <!--Start coding in posts haha-->
         {block:Posts}
         
@@ -259,7 +380,7 @@
             {block:Text}
             <div class="post">
                 {block:Title}
-                    <a href="{Permalink}">{Title}</a>
+                    <a class="postTitle" href="{Permalink}">{Title}</a>
                 {/block:Title}
                 {Body}
                 <ul class="likeAndReblog">
@@ -275,7 +396,14 @@
                     </a>
                 </ul>
             </div>
-            
+                {block:HasTags}
+                <ul class="tags">
+                    {block:Tags}
+                        <li><a href="{TagURL}">#{Tag}</a></li>
+                    {/block:Tags}
+                </ul>
+                {/block:HasTags}
+                
                 {block:PostNotes}
                 <div class="postNotes">
                     {PostNotes-16}
@@ -303,6 +431,13 @@
                     </a>
                 </ul>
             </div>
+                {block:HasTags}
+                <ul class="tags">
+                    {block:Tags}
+                        <li><a href="{TagURL}">#{Tag}</a></li>
+                    {/block:Tags}
+                </ul>
+                {/block:HasTags}
             
                 {block:PostNotes}
                 <div class="postNotes">
@@ -310,6 +445,46 @@
                 </div>
                 {/block:PostNotes}
             {/block:Photo}
+            
+            <!--2.5. Photoset Posts-->
+            {block:Photoset}
+            <div class="post">
+                {block:Photos}
+                    <img id="photosetPhoto" src="{PhotoURL-500}">
+                    {block:Caption}
+                        {Caption}
+                    {/block:Caption}
+                {/block:Photos}
+                {block:Caption}
+                    {Caption}
+                {/block:Caption}
+                <ul class="likeAndReblog">
+                    <li>{LikeButton}</li>
+                    <li>{ReblogButton}</li>
+                    <li>
+                        {block:NoteCount}
+                            <a href="{Permalink}#notes">{NoteCountWithLabel}</a>
+                        {/block:NoteCount}
+                    </li>
+                    <a href="{Permalink}">
+                        {12Hour}:{Minutes} {AmPm} on {Month} {DayOfMonth}, {Year}
+                    </a>
+                </ul>
+            </div>
+                {block:HasTags}
+                <ul class="tags">
+                    {block:Tags}
+                        <li><a href="{TagURL}">#{Tag}</a></li>
+                    {/block:Tags}
+                </ul>
+                {/block:HasTags}
+            
+                {block:PostNotes}
+                <div class="postNotes">
+                    {PostNotes-16}
+                </div>
+                {/block:PostNotes}
+            {/block:Photoset}
             
             <!--3. Quote Posts-->
             {block:Quote}
@@ -337,6 +512,13 @@
                     </a>
                 </ul>
             </div>
+                {block:HasTags}
+                <ul class="tags">
+                    {block:Tags}
+                        <li><a href="{TagURL}">#{Tag}</a></li>
+                    {/block:Tags}
+                </ul>
+                {/block:HasTags}
             
                 {block:PostNotes}
                 <div class="postNotes">
@@ -365,6 +547,13 @@
                     </a>
                 </ul>
             </div>
+                {block:HasTags}
+                <ul class="tags">
+                    {block:Tags}
+                        <li><a href="{TagURL}">#{Tag}</a></li>
+                    {/block:Tags}
+                </ul>
+                {/block:HasTags}
             
                 {block:PostNotes}
                 <div class="postNotes">
@@ -400,6 +589,13 @@
                     </a>
                 </ul>
             </div>
+                {block:HasTags}
+                <ul class="tags">
+                    {block:Tags}
+                        <li><a href="{TagURL}">#{Tag}</a></li>
+                    {/block:Tags}
+                </ul>
+                {/block:HasTags}
             
                 {block:PostNotes}
                 <div class="postNotes">
@@ -430,6 +626,13 @@
                     </a>
                 </ul>
             </div>
+                {block:HasTags}
+                <ul class="tags">
+                    {block:Tags}
+                        <li><a href="{TagURL}">#{Tag}</a></li>
+                    {/block:Tags}
+                </ul>
+                {/block:HasTags}
             
                 {block:PostNotes}
                 <div class="postNotes">
@@ -458,6 +661,13 @@
                     </a>
                 </ul>
             </div>
+                {block:HasTags}
+                <ul class="tags">
+                    {block:Tags}
+                        <li><a href="{TagURL}">#{Tag}</a></li>
+                    {/block:Tags}
+                </ul>
+                {/block:HasTags}
             
                 {block:PostNotes}
                 <div class="postNotes">
@@ -465,14 +675,6 @@
                 </div>
                 {/block:PostNotes}
             {/block:Video}
-            
-            {block:HasTags}
-            <ul class="tags">
-                {block:Tags}
-                    <li><a href="{TagURL}">#{Tag}</a></li>
-                {/block:Tags}
-            </ul>
-            {/block:HasTags}
         {/block:Posts}
     </div>
     </div>
@@ -482,42 +684,76 @@
     <div id="sidebarTab">
         LINKS
         <div id="sidebar">
-            Angry
-            <ul class="links">
-                <li><a href="{BlogURL}tagged/fucking-this">FUCKING THIS</a></li>
-            </ul>
-            
             Happy
             <ul class="links">
                 <li><a href="{BlogURL}tagged/funny">FUNNY STUFF I PROMISE</a></li>
                 <li><a href="{BlogURL}tagged/aesthetically-pleasing">PRETTY THINGS.</a></li>
-                <li><a href="{BlogURL}tagged/space">INTERGALACTIC ART</a></li>
+                <li><a href="{BlogURL}tagged/cute">CUTE PARAPHERNALIA</a></li>
+                <li><a href="{BlogURL}tagged/space">SPAAACE</a></li>
                 <li><a href="{BlogURL}tagged/nsfw">NSFW</a></li>
+                <li><a href="{BlogURL}tagged/nature">NATURE</a></li>
                 <li><a href="{BlogURL}tagged/macabre">MACABRE</a></li>
+                <li><a href="{BlogURL}tagged/song">SONGS</a></li>
             </ul>
             
             Serious.
             <ul class="links">
                 <li><a href="{BlogURL}tagged/feel-better-okay">FEEL BETTER OKAY</a></li>
                 <li><a href="{BlogURL}tagged/things-to-remember">THINGS TO REMEMBER.</a></li>
+                <li><a href="{BlogURL}tagged/love">LOVE</a></li>
                 <li><a href="{BlogURL}tagged/words">WORDS</a></li>
+                <li><a href="{BlogURL}tagged/song-lyrics">SONG LYRICS</a></li>
                 <li><a href="{BlogURL}tagged/equality">EQUALITY</a></li>
+            </ul>
+            
+            Angry
+            <ul class="links">
+                <li><a href="{BlogURL}tagged/fucking-this">FUCKING THIS</a></li>
             </ul>
             
             Colors
             <ul class="links">
                 <li><a href="{BlogURL}tagged/colors">ALL OF THEM</a></li>
-                <li><a href="{BlogURL}tagged/blue">BLUE</a></li>
-                <li><a href="{BlogURL}tagged/pink">PINK</a></li>
-                <li><a href="{BlogURL}tagged/green">GREEN</a></li>
+                <ul class="circleLinks">
+                    <li><a href="{BlogURL}tagged/white">
+                        <div id="whiteCircle"></div>
+                    </a></li>
+                    <li><a href="{BlogURL}tagged/pink">
+                        <div id="pinkCircle"></div>
+                    </a></li>
+                    <li><a href="{BlogURL}tagged/red">
+                        <div id="redCircle"></div>
+                    </a></li>
+                    <li><a href="{BlogURL}tagged/orange">
+                        <div id="orangeCircle"></div>
+                    </a></li>
+                    <li><a href="{BlogURL}tagged/yellow">
+                        <div id="yellowCircle"></div>
+                    </a></li>
+                    <br>
+                    <li><a href="{BlogURL}tagged/green">
+                        <div id="greenCircle"></div>
+                    </a></li>
+                    <li><a href="{BlogURL}tagged/blue">
+                        <div id="blueCircle"></div>
+                    </a></li>
+                    <li><a href="{BlogURL}tagged/purple">
+                        <div id="purpleCircle"></div>
+                    </a></li>
+                    <li><a href="{BlogURL}tagged/brown">
+                        <div id="brownCircle"></div>
+                    </a></li>
+                    <li><a href="{BlogURL}tagged/grey">
+                        <div id="greyCircle"></div>
+                    </a></li>
+                </ul>
             </ul>
             
             Other
             <ul class="links">
                 <li><a href="{BlogURL}tagged/chart">CHARTS</a></li>
-                <li><a href="{BlogURL}tagged/text-post">TEXT POSTS</a></li>
                 <li><a href="{BlogURL}tagged/read-later">READ LATER</a></li>
-                <li><a href="{BlogURL}tagged/hey-im-saying-stuff">HEY I'M SAYING STUFF.</a></li>
+                <li><a href="{BlogURL}tagged/hey-i'm-saying-stuff">HEY I'M SAYING STUFF.</a></li>
                 <li><a href="{BlogURL}ask">TELL ME THINGS</a></li>
                 <li><a href="{BlogURL}">HOME</a></li>
             </ul>
