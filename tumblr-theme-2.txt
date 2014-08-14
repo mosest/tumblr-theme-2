@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<head>
+<title>{Title}</title>
+<style>
+    :root {
+        --lightblue: #9ad3d7;
+        --darkblue: #70bdc0;
+        --green: #54ae59;
+        --yellow: #e9f101;
+        --lightyellow: #f0f2f2;
+        --white: white;
+    }
+    body {
+        padding: 0px;
+        margin: 0px;
+        background-image: url("http://static.tumblr.com/ubunpdk/uTyn9een4/tumblr_blue_clouds_bg.gif");
+        background-attachment: fixed;
+        height: 100%;
+    }
+    
+    /*classes*/
+    .post {
+        padding: 20px;
+        margin: 25px 0px 5px 0px;
+        background: var(--lightyellow);
+        border-radius: 5px;
+        font-family: "Century Gothic";
+    }
+    .post a {
+        text-decoration: none;
+        color: var(--green);
+        font-weight: bold;
+    }
+    .post img {
+        padding: 0px;
+        margin: 0px auto;
+        display: block;
+        text-align: center;
+    }
+    .postNotes {
+        padding: 20px 0px;
+        margin: 0px auto;
+        font-family: "Century Gothic";
+    }
+    .postNotes a {
+        text-decoration: none;
+        color: var(--green);
+        font-weight: bold;
+    }
+    .postNotes li {
+        padding: 10px 0px;
+        margin: 0px;
+        border-bottom: 2px solid var(--lightyellow);
+        list-style-type: none;
+    }
+    .postNotes img {
+        padding: 0px;
+        margin: 0px 7px 0px 5px;
+    }
+    .likeAndReblog {
+        padding: 10px 0px;
+        margin: 0px auto;
+        border-top: 5px dotted var(--lightblue);
+        font-size: 14px;
+        list-style: none;
+    }
+    .likeAndReblog li {
+        padding: 0px;
+        margin: 0px 4px;
+        display: inline;
+        float: right;
+    }
+    .likeAndReblog a {
+        float: left;
+    }
+    .links {
+        padding: 0px;
+        font-family: "Century Gothic";
+        font-size: 12px;
+        list-style: none;
+        
+        /*please don't break a column in the ul*/
+        page-break-inside: avoid;
+    }
+    .links li a {
+        text-decoration: none;
+        color: white;
+    }
+    .links li a:hover {
+        color: var(--yellow);
+    }
+    .tags {
+        padding: 0px;
+        margin: 0px;
+        display: inline;
+        font-family: "Century Gothic";
+        font-size: 14px;
+    }
+    .tags li {
+        padding: 0px;
+        margin: 0px 4px;
+        display: inline;
+    }
+    .tags a {
+        text-decoration: none;
+        color: var(--darkblue);
+    }
+    
+    /*IDs*/
+    #behindPostColumn {
+        padding: 0px;
+        margin: 0px auto;
+        background: white;
+        border-left: 5px solid var(--darkblue);
+        border-right: 5px solid var(--darkblue);
+        min-height: 100vh;
+        width: 620px;
+    }
+    #postColumn {
+        padding: 0px 20px 20px 20px;
+        margin: 0px auto;
+        background: white;
+        border-left: 10px solid var(--lightblue);
+        border-right: 10px solid var(--lightblue);
+        min-height: 100vh;
+        width: 540px;
+    }
+    #header {
+        padding: 20px 0px;
+        margin: 0px;
+        border-bottom: 8px dotted var(--lightblue);
+        font-family: "Arial Narrow", courier;
+    }
+    #blogTitle {
+        padding: 0px;
+        margin: 0px 0px 0px 20px;
+        color: var(--darkblue);
+        font-size: 48px;
+        height: 148px;
+        line-height: 148px;
+        position: absolute;
+        text-decoration: none;
+        top: 20px;
+        width: 392px;
+    }
+    #blogTitle span {
+        display: inline-block;
+        vertical-align: middle;
+        line-height: normal;
+    }
+    #avatar {
+        padding: 0px;
+        margin: 0px;
+        border: 10px solid var(--lightyellow);
+        border-radius: 20px;
+    }
+    #description {
+        padding: 0px;
+        margin: 20px 0px 0px 0px;
+        color: var(--darkblue);
+        text-align: center;
+    }
+    
+    /*more IDs except these have to do with the sidebar*/
+    #sidebarTab {
+        padding: 20px;
+        margin: 0px;
+        background: var(--darkblue);
+        border-radius: 0px 0px 10px 10px;
+        color: white;
+        font-family: "Arial Narrow", courier;
+        font-size: 20px;
+        left: 20px;
+        position: fixed;
+        top: 0px;
+            
+        /*let's see if this baby can slide*/
+        -webkit-transition-duration: 0.3s;
+        -moz-transition-duration: 0.3s;
+        -o-transition-duration: 0.3s;
+        transition-duration: 0.3s;
+    }
+    #sidebar {
+        padding: 20px;
+        margin: 0px;
+        background: var(--darkblue);
+        border-radius: 0px 0px 10px 0px;
+        color: var(--yellow);
+        font-size: 20px;
+        height: 300px;
+        left: 20px;
+        position: fixed;
+        top: -100%;
+        
+        /*split into columns*/
+        -moz-column-count: 2;
+        -moz-column-gap: 30px;
+        -webkit-column-count: 2;
+        -webkit-column-gap: 30px;
+        column-count: 2;
+        column-gap: 30px;
+        
+        /*sliding wow hooray yes*/
+        -webkit-transition-duration: 0.3s;
+        -moz-transition-duration: 0.3s;
+        -o-transition-duration: 0.3s;
+        transition-duration: 0.3s;
+    }
+    #sidebarTab:hover {
+        color: var(--yellow);
+        top: 340px;
+    }
+    #sidebarTab:hover #sidebar {
+        top: 0px;
+    }
+    
+    /*post IDs! so, specifically certain parts of posts*/
+    #quote {
+        font-family: "Georgia", serif;
+        font-size: 18px;
+    }
+    #quoteSource {
+        font-variant: small-caps;
+    }
+    
+    /*If window gets too small width-wise*/
+    @media(max-width: 1400px) {
+        #limitForPostColumn {
+            padding: 0px;
+            margin: 0px auto 0px 375px;
+            position: absolute;
+        }
+        #behindPostColumn {
+            margin: 0px;
+        }
+    }
+</style>
+</head>
+
+<body>
+    <!--column of content huzzah forsooth-->
+    <div id="limitForPostColumn">
+    <div id="behindPostColumn">
+    <div id="postColumn">
+        <div id="header">
+            <img id="avatar" src="{PortraitURL-128}">
+            <a id="blogTitle" href="{BlogURL}"><span>{Title}</span></a>
+            {block:Description}
+            <div id="description">
+                {Description}
+            </div>
+            {/block:Description}
+        </div>
+        
+        <!--Start coding in posts haha-->
+        {block:Posts}
+        
+            <!--1. Text Posts-->
+            {block:Text}
+            <div class="post">
+                {block:Title}
+                    <a href="{Permalink}">{Title}</a>
+                {/block:Title}
+                {Body}
+                <ul class="likeAndReblog">
+                    <li>{LikeButton}</li>
+                    <li>{ReblogButton}</li>
+                    <li>
+                        {block:NoteCount}
+                            <a href="{Permalink}#notes">{NoteCountWithLabel}</a>
+                        {/block:NoteCount}
+                    </li>
+                    <a href="{Permalink}">
+                        {12Hour}:{Minutes} {AmPm} on {Month} {DayOfMonth}, {Year}
+                    </a>
+                </ul>
+            </div>
+            
+                {block:PostNotes}
+                <div class="postNotes">
+                    {PostNotes-16}
+                </div>
+                {/block:PostNotes}
+            {/block:Text}
+            
+            <!--2. Photo Posts-->
+            {block:Photo}
+            <div class="post">
+                <img src="{PhotoURL-500}">
+                {block:Caption}
+                    {Caption}
+                {/block:Caption}
+                <ul class="likeAndReblog">
+                    <li>{LikeButton}</li>
+                    <li>{ReblogButton}</li>
+                    <li>
+                        {block:NoteCount}
+                            <a href="{Permalink}#notes">{NoteCountWithLabel}</a>
+                        {/block:NoteCount}
+                    </li>
+                    <a href="{Permalink}">
+                        {12Hour}:{Minutes} {AmPm} on {Month} {DayOfMonth}, {Year}
+                    </a>
+                </ul>
+            </div>
+            
+                {block:PostNotes}
+                <div class="postNotes">
+                    {PostNotes-16}
+                </div>
+                {/block:PostNotes}
+            {/block:Photo}
+            
+            <!--3. Quote Posts-->
+            {block:Quote}
+            <div class="post">
+                <div id="quote">
+                    <span>&#8220;</span>
+                    {Quote}
+                    <span>&#8221;</span>
+                </div>
+                {block:Source}
+                <div id="quoteSource">
+                    <br>&mdash;{Source}
+                </div>
+                {/block:Source}
+                <ul class="likeAndReblog">
+                    <li>{LikeButton}</li>
+                    <li>{ReblogButton}</li>
+                    <li>
+                        {block:NoteCount}
+                            <a href="{Permalink}#notes">{NoteCountWithLabel}</a>
+                        {/block:NoteCount}
+                    </li>
+                    <a href="{Permalink}">
+                        {12Hour}:{Minutes} {AmPm} on {Month} {DayOfMonth}, {Year}
+                    </a>
+                </ul>
+            </div>
+            
+                {block:PostNotes}
+                <div class="postNotes">
+                    {PostNotes-16}
+                </div>
+                {/block:PostNotes}
+            {/block:Quote}
+            
+            <!--4. Link Posts-->
+            {block:Link}
+            <div class="post">
+                <a href="{URL}" {Target}>{Name}</a>
+                {block:Description}
+                    {Description}
+                {/block:Description}
+                <ul class="likeAndReblog">
+                    <li>{LikeButton}</li>
+                    <li>{ReblogButton}</li>
+                    <li>
+                        {block:NoteCount}
+                            <a href="{Permalink}#notes">{NoteCountWithLabel}</a>
+                        {/block:NoteCount}
+                    </li>
+                    <a href="{Permalink}">
+                        {12Hour}:{Minutes} {AmPm} on {Month} {DayOfMonth}, {Year}
+                    </a>
+                </ul>
+            </div>
+            
+                {block:PostNotes}
+                <div class="postNotes">
+                    {PostNotes-16}
+                </div>
+                {/block:PostNotes}
+            {/block:Link}
+            
+            <!--5. Chat Posts-->
+            {block:Chat}
+            <div class="post">
+                {block:Title}
+                    <a href="{Permalink}">{Title}</a>
+                {/block:Title}
+                {block:Lines}
+                <table>
+                    <tr>
+                        <th>{block:Label}{Label}{/block:Label}</th>
+                        <td>{Line}</td>
+                    </tr>
+                </table>
+                {/block:Lines}
+                <ul class="likeAndReblog">
+                    <li>{LikeButton}</li>
+                    <li>{ReblogButton}</li>
+                    <li>
+                        {block:NoteCount}
+                            <a href="{Permalink}#notes">{NoteCountWithLabel}</a>
+                        {/block:NoteCount}
+                    </li>
+                    <a href="{Permalink}">
+                        {12Hour}:{Minutes} {AmPm} on {Month} {DayOfMonth}, {Year}
+                    </a>
+                </ul>
+            </div>
+            
+                {block:PostNotes}
+                <div class="postNotes">
+                    {PostNotes-16}
+                </div>
+                {/block:PostNotes}
+            {/block:Chat}
+            
+            <!--6. Audio Posts-->
+            {block:Audio}
+            <div class="post">
+                {block:AudioEmbed}
+                    {AudioEmbed}
+                {/block:AudioEmbed}
+                {block:Caption}
+                    {Caption}
+                {/block:Caption}
+                <ul class="likeAndReblog">
+                    <li>{LikeButton}</li>
+                    <li>{ReblogButton}</li>
+                    <li>
+                        {block:NoteCount}
+                            <a href="{Permalink}#notes">{NoteCountWithLabel}</a>
+                        {/block:NoteCount}
+                    </li>
+                    <a href="{Permalink}">
+                        {12Hour}:{Minutes} {AmPm} on {Month} {DayOfMonth}, {Year}
+                    </a>
+                </ul>
+            </div>
+            
+                {block:PostNotes}
+                <div class="postNotes">
+                    {PostNotes-16}
+                </div>
+                {/block:PostNotes}
+            {/block:Audio}
+            
+            <!--7. Video Posts-->
+            {block:Video}
+            <div class="post">
+                {VideoEmbed-500}
+                {block:Caption}
+                    {Caption}
+                {/block:Caption}
+                <ul class="likeAndReblog">
+                    <li>{LikeButton}</li>
+                    <li>{ReblogButton}</li>
+                    <li>
+                        {block:NoteCount}
+                            <a href="{Permalink}#notes">{NoteCountWithLabel}</a>
+                        {/block:NoteCount}
+                    </li>
+                    <a href="{Permalink}">
+                        {12Hour}:{Minutes} {AmPm} on {Month} {DayOfMonth}, {Year}
+                    </a>
+                </ul>
+            </div>
+            
+                {block:PostNotes}
+                <div class="postNotes">
+                    {PostNotes-16}
+                </div>
+                {/block:PostNotes}
+            {/block:Video}
+            
+            {block:HasTags}
+            <ul class="tags">
+                {block:Tags}
+                    <li><a href="{TagURL}">#{Tag}</a></li>
+                {/block:Tags}
+            </ul>
+            {/block:HasTags}
+        {/block:Posts}
+    </div>
+    </div>
+    </div>
+    
+    <!--let's do the sidebar whoohoo-->
+    <div id="sidebarTab">
+        LINKS
+        <div id="sidebar">
+            Angry
+            <ul class="links">
+                <li><a href="{BlogURL}tagged/fucking-this">FUCKING THIS</a></li>
+            </ul>
+            
+            Happy
+            <ul class="links">
+                <li><a href="{BlogURL}tagged/funny">FUNNY STUFF I PROMISE</a></li>
+                <li><a href="{BlogURL}tagged/aesthetically-pleasing">PRETTY THINGS.</a></li>
+                <li><a href="{BlogURL}tagged/space">INTERGALACTIC ART</a></li>
+                <li><a href="{BlogURL}tagged/nsfw">NSFW</a></li>
+                <li><a href="{BlogURL}tagged/macabre">MACABRE</a></li>
+            </ul>
+            
+            Serious.
+            <ul class="links">
+                <li><a href="{BlogURL}tagged/feel-better-okay">FEEL BETTER OKAY</a></li>
+                <li><a href="{BlogURL}tagged/things-to-remember">THINGS TO REMEMBER.</a></li>
+                <li><a href="{BlogURL}tagged/words">WORDS</a></li>
+                <li><a href="{BlogURL}tagged/equality">EQUALITY</a></li>
+            </ul>
+            
+            Colors
+            <ul class="links">
+                <li><a href="{BlogURL}tagged/colors">ALL OF THEM</a></li>
+                <li><a href="{BlogURL}tagged/blue">BLUE</a></li>
+                <li><a href="{BlogURL}tagged/pink">PINK</a></li>
+                <li><a href="{BlogURL}tagged/green">GREEN</a></li>
+            </ul>
+            
+            Other
+            <ul class="links">
+                <li><a href="{BlogURL}tagged/chart">CHARTS</a></li>
+                <li><a href="{BlogURL}tagged/text-post">TEXT POSTS</a></li>
+                <li><a href="{BlogURL}tagged/read-later">READ LATER</a></li>
+                <li><a href="{BlogURL}tagged/hey-im-saying-stuff">HEY I'M SAYING STUFF.</a></li>
+                <li><a href="{BlogURL}ask">TELL ME THINGS</a></li>
+                <li><a href="{BlogURL}">HOME</a></li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
